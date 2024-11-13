@@ -1,5 +1,15 @@
 # GitHub Markdown Browser Viewer
 
+This tool enables you to display a GitHub markdown page (e.g. a Readme file) in your browser by it self without any Github tooling surrounding it. It is designed to replicate GitHubs Readme file displays faithfully. The purpose of this tool is to show one clean markdown page with clean coding blocks and mermaid diagrams. It is perfect for labs or project brief and avoids the need to use Word where coding blocks are not easy to insert. Coding blocks are complete with syntax highlighting. The best part is that markdown pages can be completly created in full using at AI chat tool and them uploaded to github to be dispalyed. 
+
+## Features
+
+- 🎨 GitHub-style markdown rendering
+- 📊 Native Mermaid diagram support
+- 💻 Syntax highlighting for code blocks
+- 📋 GitHub-style copy button for code blocks
+- 🌓 Automatic dark mode support
+- 🔄 Direct GitHub URL conversion
 > **🌐 Live at: https://danielcregg.github.io/md-render/**
 
 ## Quick Usage
@@ -12,24 +22,15 @@ There are two ways to use this viewer:
    ```
 
 2. **URL Parameter**: Append your markdown URL to the website's URL like below:
-   ```
-   https://danielcregg.github.io/md-render/``?url=https://github.com/myusername/my-random-github-repository/blob/master/README.md``
-   ```
+   
+   https:\/\/danielcregg.github.io/md-render/**?url=https:\/\/github.com/myusername/my-random-github-repository/blob/master/README.md**
+   
 
 For example, to view "Week 7 Lab: AI Recipe Generator", simply append its URL to the viewer's URL.
 
 ---
 
-A lightweight, browser-based markdown viewer that faithfully replicates GitHub's markdown rendering experience, complete with syntax highlighting and mermaid diagram support.
 
-## Features
-
-- 🎨 GitHub-style markdown rendering
-- 📊 Native Mermaid diagram support
-- 💻 Syntax highlighting for code blocks
-- 📋 GitHub-style copy button for code blocks
-- 🌓 Automatic dark mode support
-- 🔄 Direct GitHub URL conversion
 
 ## How It Works
 
