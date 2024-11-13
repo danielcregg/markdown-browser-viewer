@@ -394,10 +394,25 @@
             }
         }
 
-        // Load content from URL parameter if present
+        // Load content from URL parameter or path
         window.addEventListener('load', () => {
+            // First check for url parameter
             const urlParams = new URLSearchParams(window.location.search);
-            const mdUrl = urlParams.get('url');
+            let mdUrl = urlParams.get('url');
+            
+            // If no url parameter, check if there's a path after the base URL
+            if (!mdUrl) {
+                const path = window.location.pathname.split('/md-render/')[1];
+                if (path) {
+                    // Decode the URL-encoded path
+                    mdUrl = decodeURIComponent(path);
+                    // If it doesn't start with http, assume it's a GitHub URL
+                    if (!mdUrl.startsWith('http')) {
+                        mdUrl = 'https://' + mdUrl;
+                    }
+                }
+            }
+
             if (mdUrl) {
                 document.getElementById('url-input').value = mdUrl;
                 loadMarkdown();
