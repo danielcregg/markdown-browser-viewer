@@ -53,7 +53,7 @@ There are two ways to use this viewer:
 
 2. **URL Parameter**: Append your markdown URL to the website's URL like below:
    
-   https:\/\/danielcregg.github.io/markdown-browser-viewer/**?url=https:\/\/github.com/myusername/my-random-github-repository/blob/master/README.md**
+   https:\/\/danielcregg.github.io/markdown-browser-viewer/**?url=https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md**
    
 
 For example, to view "Week 7 Lab: AI Recipe Generator", simply append its URL to the viewer's URL.
