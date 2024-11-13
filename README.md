@@ -6,14 +6,14 @@
 
 There are two ways to use this viewer:
 
-1. **Direct URL**: Visit the viewer and enter your markdown URL
+1. **Direct URL**: Visit the website above and enter your markdown URL in the textbox provided.
    ```
    https://danielcregg.github.io/md-render/
    ```
 
-2. **URL Parameter**: Append your markdown URL to the viewer's URL
+2. **URL Parameter**: Append your markdown URL to the website's URL like below:
    ```
-   https://danielcregg.github.io/md-render/?url=YOUR_MARKDOWN_URL_HERE
+   https://danielcregg.github.io/md-render/``?url=https://github.com/myusername/my-random-github-repository/blob/master/README.md``
    ```
 
 For example, to view "Week 7 Lab: AI Recipe Generator", simply append its URL to the viewer's URL.
