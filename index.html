@@ -308,18 +308,24 @@
         });
 
         function convertToRawUrl(url) {
+            console.log('Converting URL:', url); // Debug log
+            
             // If it's already a raw URL, return it
             if (url.includes('raw.githubusercontent.com')) {
                 return url;
             }
             
-            // Clean up the URL in case it was directly appended
-            if (!url.startsWith('https://') && !url.startsWith('http://')) {
+            // Ensure the URL starts with https://
+            if (!url.startsWith('https://')) {
                 url = 'https://' + url;
             }
             
-            return url.replace('github.com', 'raw.githubusercontent.com')
-                     .replace('/blob/', '/');
+            // Convert GitHub URL to raw URL
+            url = url.replace('github.com', 'raw.githubusercontent.com')
+                    .replace('/blob/', '/');
+            
+            console.log('Converted to:', url); // Debug log
+            return url;
         }
 
         async function copyCode(button) {
