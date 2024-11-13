@@ -92,6 +92,11 @@
             margin-bottom: 16px;
             font-weight: 600;
             line-height: 1.25;
+            padding-bottom: 0.3em;
+        }
+
+        #content h1, #content h2 {
+            border-bottom: 1px solid var(--border-color);
         }
 
         #content h1 { font-size: 2em; }
@@ -116,25 +121,32 @@
 
         .copy-button {
             background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
+            border: none;
+            color: #656d76;
             padding: 4px 8px;
             font-size: 12px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 4px;
+            transition: all 0.2s ease;
         }
 
         .copy-button:hover {
             background: var(--copy-button-hover);
+            color: var(--primary-color);
         }
 
         .copy-button svg {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             fill: currentColor;
+            opacity: 0.8;
+        }
+        
+        .copy-button:hover svg {
+            opacity: 1;
         }
 
         #content pre {
