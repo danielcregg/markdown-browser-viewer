@@ -1,4 +1,4 @@
-# GitHub Markdown Viewer
+# GitHub Markdown Browser Viewer
 
 > **🌐 Live at: https://danielcregg.github.io/md-render/**
 
