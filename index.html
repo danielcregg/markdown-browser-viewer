@@ -408,36 +408,38 @@
         }
 
  // Load content from URL parameter or path
-window.addEventListener('load', () => {
-    // First, check for url parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    let mdUrl = urlParams.get('url');
-
-    // If no url parameter, extract from the path
-    if (!mdUrl) {
-        let path = decodeURIComponent(window.location.pathname);
-        const basePath = '/markdown-browser-viewer/';
-
-        // Remove the base path
-        if (path.startsWith(basePath)) {
-            mdUrl = path.substring(basePath.length);
-        } else {
-            mdUrl = path.substring(1); // Remove leading '/'
-        }
-
-        if (mdUrl) {
-            // Ensure URL starts with http:// or https://
-            if (!mdUrl.startsWith('http://') && !mdUrl.startsWith('https://')) {
-                mdUrl = 'https://' + mdUrl;
+        window.addEventListener('load', () => {
+            // First, check for url parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            let mdUrl = urlParams.get('url');
+    
+            // If no url parameter, extract from the path
+            if (!mdUrl) {
+                let path = decodeURIComponent(window.location.pathname);
+                const basePath = '/markdown-browser-viewer/';
+    
+                // Remove the base path
+                if (path.startsWith(basePath)) {
+                    mdUrl = path.substring(basePath.length);
+                } else if (path.startsWith('/')) {
+                    mdUrl = path.substring(1);
+                } else {
+                    mdUrl = path;
+                }
+    
+                if (mdUrl) {
+                    // Ensure URL starts with http:// or https://
+                    if (!mdUrl.startsWith('http://') && !mdUrl.startsWith('https://')) {
+                        mdUrl = 'https://' + mdUrl;
+                    }
+                }
             }
-        }
-    }
-
-    if (mdUrl) {
-        document.getElementById('url-input').value = mdUrl;
-        loadMarkdown();
-    }
-});
+    
+            if (mdUrl) {
+                document.getElementById('url-input').value = mdUrl;
+                loadMarkdown();
+            }
+        });
     </script>
 </body>
 </html>
