@@ -316,7 +316,7 @@
             }
             
             // Ensure the URL starts with https://
-            if (!url.startsWith('https://')) {
+            if (!url.startsWith('https://') && !url.startsWith('http://')) {
                 url = 'https://' + url;
             }
             
@@ -415,12 +415,11 @@
             
             // If no url parameter, check if there's a path after the base URL
             if (!mdUrl) {
-                const path = window.location.pathname.split('/md-render/')[1];
+                let path = decodeURIComponent(window.location.pathname.slice(1));
                 if (path) {
-                    // Decode the URL-encoded path
-                    mdUrl = decodeURIComponent(path);
-                    // If it doesn't start with http, assume it's a GitHub URL
-                    if (!mdUrl.startsWith('http')) {
+                    mdUrl = path;
+                    // If it doesn't start with http or https, assume it's a GitHub URL
+                    if (!mdUrl.startsWith('http://') && !mdUrl.startsWith('https://')) {
                         mdUrl = 'https://' + mdUrl;
                     }
                 }
