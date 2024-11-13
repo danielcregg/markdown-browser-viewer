@@ -281,10 +281,7 @@
                 <div class="code-block-container">
                     <div class="code-header">
                         <button class="copy-button" onclick="copyCode(this)">
-                            <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16">
-                                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path>
-                                <path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
-                            </svg>
+                            <!-- Copy icon SVG -->
                             Copy
                         </button>
                     </div>
@@ -308,15 +305,15 @@
         });
 
         function convertToRawUrl(url) {
-            console.log('Converting URL:', url); // Debug log
+            console.log('Converting URL:', url);
             
             // If it's already a raw URL, return it
             if (url.includes('raw.githubusercontent.com')) {
                 return url;
             }
             
-            // Ensure the URL starts with https://
-            if (!url.startsWith('https://') && !url.startsWith('http://')) {
+            // Ensure the URL starts with http:// or https://
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
                 url = 'https://' + url;
             }
             
@@ -324,7 +321,7 @@
             url = url.replace('github.com', 'raw.githubusercontent.com')
                     .replace('/blob/', '/');
             
-            console.log('Converted to:', url); // Debug log
+            console.log('Converted to:', url);
             return url;
         }
 
@@ -407,17 +404,17 @@
             }
         }
 
- // Load content from URL parameter or path
+        // Load content from URL parameter or path
         window.addEventListener('load', () => {
-            // First, check for url parameter
+            // First check for url parameter
             const urlParams = new URLSearchParams(window.location.search);
             let mdUrl = urlParams.get('url');
-    
-            // If no url parameter, extract from the path
+            
+            // If no url parameter, check if there's a path after the base URL
             if (!mdUrl) {
                 let path = decodeURIComponent(window.location.pathname);
-                const basePath = '/markdown-browser-viewer/';
-    
+                const basePath = '/'; // Adjust the base path if necessary
+
                 // Remove the base path
                 if (path.startsWith(basePath)) {
                     mdUrl = path.substring(basePath.length);
@@ -426,15 +423,15 @@
                 } else {
                     mdUrl = path;
                 }
-    
+
                 if (mdUrl) {
-                    // Ensure URL starts with http:// or https://
+                    // Ensure the URL starts with 'http://' or 'https://'
                     if (!mdUrl.startsWith('http://') && !mdUrl.startsWith('https://')) {
                         mdUrl = 'https://' + mdUrl;
                     }
                 }
             }
-    
+
             if (mdUrl) {
                 document.getElementById('url-input').value = mdUrl;
                 loadMarkdown();
