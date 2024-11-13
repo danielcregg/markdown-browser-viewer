@@ -308,9 +308,16 @@
         });
 
         function convertToRawUrl(url) {
+            // If it's already a raw URL, return it
             if (url.includes('raw.githubusercontent.com')) {
                 return url;
             }
+            
+            // Clean up the URL in case it was directly appended
+            if (!url.startsWith('https://') && !url.startsWith('http://')) {
+                url = 'https://' + url;
+            }
+            
             return url.replace('github.com', 'raw.githubusercontent.com')
                      .replace('/blob/', '/');
         }
