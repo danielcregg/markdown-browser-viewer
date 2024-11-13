@@ -1,6 +1,26 @@
 # GitHub Markdown Viewer
 
-A lightweight, browser-based markdown viewer that closely mimics GitHub's markdown rendering, complete with syntax highlighting, mermaid diagrams support, and a GitHub-like interface.
+> **🌐 Live at: https://danielcregg.github.io/md-render/**
+
+## Quick Usage
+
+There are two ways to use this viewer:
+
+1. **Direct URL**: Visit the viewer and enter your markdown URL
+   ```
+   https://danielcregg.github.io/md-render/
+   ```
+
+2. **URL Parameter**: Append your markdown URL to the viewer's URL
+   ```
+   https://danielcregg.github.io/md-render/?url=YOUR_MARKDOWN_URL_HERE
+   ```
+
+For example, to view "Week 7 Lab: AI Recipe Generator", simply append its URL to the viewer's URL.
+
+---
+
+A lightweight, browser-based markdown viewer that faithfully replicates GitHub's markdown rendering experience, complete with syntax highlighting and mermaid diagram support.
 
 ## Features
 
@@ -10,23 +30,8 @@ A lightweight, browser-based markdown viewer that closely mimics GitHub's markdo
 - 📋 GitHub-style copy button for code blocks
 - 🌓 Automatic dark mode support
 - 🔄 Direct GitHub URL conversion
-- 🎯 Faithful recreation of GitHub's styling
 
-## Quick Start
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>GitHub Markdown Viewer</title>
-</head>
-<body>
-    <!-- Copy the full HTML from the repository -->
-</body>
-</html>
-```
-
-## Usage Flow
+## How It Works
 
 ```mermaid
 flowchart LR
@@ -42,52 +47,7 @@ flowchart LR
     H -->|Mermaid| J[Render Diagram]
 ```
 
-## Code Block Example
-
-The viewer automatically detects language and applies syntax highlighting:
-
-```python
-def example_function():
-    """
-    This is an example function to demonstrate syntax highlighting
-    """
-    data = {
-        "hello": "world",
-        "numbers": [1, 2, 3, 4, 5]
-    }
-    return data
-
-# Output will be syntax highlighted
-result = example_function()
-print(result)
-```
-
-## Mermaid Diagram Support
-
-Simply write your mermaid diagrams in code blocks with the 'mermaid' language specified:
-
-````markdown
-```mermaid
-classDiagram
-    class MarkdownViewer {
-        +render()
-        +convertUrl()
-        +highlightSyntax()
-    }
-    class MermaidRenderer {
-        +initialize()
-        +render()
-    }
-    class SyntaxHighlighter {
-        +highlight()
-        +getLanguage()
-    }
-    MarkdownViewer --> MermaidRenderer
-    MarkdownViewer --> SyntaxHighlighter
-```
-````
-
-Which renders as:
+## Architecture
 
 ```mermaid
 classDiagram
@@ -108,23 +68,7 @@ classDiagram
     MarkdownViewer --> SyntaxHighlighter
 ```
 
-## URL Handling
-
-The viewer accepts two types of URLs:
-
-1. Direct GitHub URLs:
-   ```
-   https://github.com/username/repo/blob/main/README.md
-   ```
-
-2. Raw GitHub URLs:
-   ```
-   https://raw.githubusercontent.com/username/repo/main/README.md
-   ```
-
-The viewer automatically converts GitHub URLs to their raw format.
-
-## Technical Details
+## Processing Flow
 
 ```mermaid
 sequenceDiagram
@@ -144,34 +88,45 @@ sequenceDiagram
     V->>U: Display Result
 ```
 
-## Dependencies
+## Components & Dependencies
 
-- **marked** (v9.1.6) - Markdown parsing
-- **highlight.js** (v11.7.0) - Syntax highlighting
-- **mermaid** (v10.6.1) - Diagram rendering
+```mermaid
+mindmap
+    root((Markdown Viewer))
+        (Parsing Engine)
+            (Markdown Parser)
+            (Syntax Highlighter)
+        (Rendering)
+            (Mermaid Diagrams)
+            (Code Blocks)
+            (Tables)
+        (UI Components)
+            (Dark Mode)
+            (Copy Button)
+            (URL Converter)
+```
 
-## Browser Support
+## System Requirements
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+```mermaid
+graph TD
+    A[System Requirements] --> B[Modern Browser]
+    B --> C[Chrome Latest]
+    B --> D[Firefox Latest]
+    B --> E[Safari Latest]
+    B --> F[Edge Latest]
+    A --> G[JavaScript Enabled]
+    A --> H[Internet Connection]
+    H --> I[For GitHub URLs]
+```
 
-## Dark Mode Support
+## Dark Mode Behavior
 
-The viewer automatically detects system dark mode preferences and adjusts the theme accordingly. This includes:
-
-- Syntax highlighting
-- Mermaid diagrams
-- UI elements
-- Code blocks
-
-## Installation
-
-1. Clone this repository
-2. Open the HTML file in a web browser
-3. Start viewing markdown files!
-
-## License
-
-MIT License - feel free to use and modify as needed.
+```mermaid
+stateDiagram-v2
+    [*] --> CheckPreference
+    CheckPreference --> LightMode: System Light
+    CheckPreference --> DarkMode: System Dark
+    
+    LightMode --> UpdateUI: Apply Light Theme
+    DarkMode --> UpdateUI: Apply Dark Theme
