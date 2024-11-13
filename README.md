@@ -1,6 +1,36 @@
 # GitHub Markdown Browser Viewer
 
-This tool enables you to display a GitHub markdown page (e.g. a Readme file) in your browser by it self without any Github tooling surrounding it. It is designed to replicate GitHubs Readme file displays faithfully. The purpose of this tool is to show one clean markdown page with clean coding blocks and mermaid diagrams. It is perfect for labs or project brief and avoids the need to use Word where coding blocks are not easy to insert. Coding blocks are complete with syntax highlighting. The best part is that markdown pages can be completly created in full using at AI chat tool and them uploaded to github to be dispalyed. 
+# Overview
+
+The GitHub Markdown Viewer is a specialized tool that renders GitHub markdown files in a clean, standalone interface. It faithfully reproduces GitHub's native markdown rendering capabilities while eliminating surrounding repository elements, providing a distraction-free reading experience.
+
+## Purpose
+
+This viewer addresses several key needs:
+- Renders markdown files with GitHub-faithful styling
+- Provides a standalone, clutter-free display
+- Supports complex elements including:
+  - Syntax-highlighted code blocks
+  - Interactive Mermaid diagrams
+  - Tables and formatting
+
+## Key Benefits
+
+- **Educational Use**: Ideal for displaying laboratory instructions, project briefs, and technical documentation
+- **Professional Presentation**: Offers clean, consistent formatting without platform-specific distractions
+- **Modern Alternative**: Replaces traditional word processors where code formatting is challenging
+- **AI Integration**: Seamlessly handles AI-generated markdown content, making it perfect for documentation workflows that leverage AI tools
+
+```mermaid
+flowchart LR
+    A[Markdown Creation via AI] --> B[GitHub Storage]
+    B --> C[Clean Display]
+    C --> D{Use Cases}
+    D --> E[Lab Instructions]
+    D --> F[Project Briefs]
+    D --> G[Documentation]
+    D --> H[Technical Coding Guides]
+```
 
 ## Features
 
@@ -10,7 +40,7 @@ This tool enables you to display a GitHub markdown page (e.g. a Readme file) in 
 - 📋 GitHub-style copy button for code blocks
 - 🌓 Automatic dark mode support
 - 🔄 Direct GitHub URL conversion
-> **🌐 Live at: https://danielcregg.github.io/md-render/**
+> **🌐 Live at: https://danielcregg.github.io/markdown-browser-viewer/**
 
 ## Quick Usage
 
@@ -18,12 +48,12 @@ There are two ways to use this viewer:
 
 1. **Direct URL**: Visit the website above and enter your markdown URL in the textbox provided.
    ```
-   https://danielcregg.github.io/md-render/
+   https://danielcregg.github.io/markdown-browser-viewer/
    ```
 
 2. **URL Parameter**: Append your markdown URL to the website's URL like below:
    
-   https:\/\/danielcregg.github.io/md-render/**?url=https:\/\/github.com/myusername/my-random-github-repository/blob/master/README.md**
+   https:\/\/danielcregg.github.io/markdown-browser-viewer/**?url=https:\/\/github.com/myusername/my-random-github-repository/blob/master/README.md**
    
 
 For example, to view "Week 7 Lab: AI Recipe Generator", simply append its URL to the viewer's URL.
