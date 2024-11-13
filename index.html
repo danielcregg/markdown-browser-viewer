@@ -407,29 +407,37 @@
             }
         }
 
-        // Load content from URL parameter or path
-        window.addEventListener('load', () => {
-            // First check for url parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            let mdUrl = urlParams.get('url');
-            
-            // If no url parameter, check if there's a path after the base URL
-            if (!mdUrl) {
-                let path = decodeURIComponent(window.location.pathname.slice(1));
-                if (path) {
-                    mdUrl = path;
-                    // If it doesn't start with http or https, assume it's a GitHub URL
-                    if (!mdUrl.startsWith('http://') && !mdUrl.startsWith('https://')) {
-                        mdUrl = 'https://' + mdUrl;
-                    }
-                }
-            }
+ // Load content from URL parameter or path
+window.addEventListener('load', () => {
+    // First, check for url parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    let mdUrl = urlParams.get('url');
 
-            if (mdUrl) {
-                document.getElementById('url-input').value = mdUrl;
-                loadMarkdown();
+    // If no url parameter, extract from the path
+    if (!mdUrl) {
+        let path = decodeURIComponent(window.location.pathname);
+        const basePath = '/markdown-browser-viewer/';
+
+        // Remove the base path
+        if (path.startsWith(basePath)) {
+            mdUrl = path.substring(basePath.length);
+        } else {
+            mdUrl = path.substring(1); // Remove leading '/'
+        }
+
+        if (mdUrl) {
+            // Ensure URL starts with http:// or https://
+            if (!mdUrl.startsWith('http://') && !mdUrl.startsWith('https://')) {
+                mdUrl = 'https://' + mdUrl;
             }
-        });
+        }
+    }
+
+    if (mdUrl) {
+        document.getElementById('url-input').value = mdUrl;
+        loadMarkdown();
+    }
+});
     </script>
 </body>
 </html>
