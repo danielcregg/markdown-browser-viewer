@@ -6,7 +6,7 @@
     <title>GitHub Markdown Viewer</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
     <style>
         :root {
             --primary-color: #0969da;
@@ -14,6 +14,7 @@
             --text-color: #1f2328;
             --code-background: #f6f8fa;
             --border-color: #d0d7de;
+            --copy-button-hover: #f3f4f6;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -23,6 +24,7 @@
                 --text-color: #e6edf3;
                 --code-background: #161b22;
                 --border-color: #30363d;
+                --copy-button-hover: #21262d;
             }
         }
 
@@ -95,12 +97,49 @@
         #content h2 { font-size: 1.5em; }
         #content h3 { font-size: 1.25em; }
 
-        #content pre {
+        /* Code block container */
+        .code-block-container {
+            position: relative;
             background: var(--code-background);
-            padding: 16px;
             border-radius: 6px;
-            overflow-x: auto;
             border: 1px solid var(--border-color);
+            margin: 16px 0;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .copy-button {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .copy-button:hover {
+            background: var(--copy-button-hover);
+        }
+
+        .copy-button svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        #content pre {
+            margin: 0;
+            padding: 16px;
+            overflow-x: auto;
         }
 
         #content code {
@@ -154,6 +193,24 @@
         .hidden {
             display: none !important;
         }
+
+        /* Copy success message */
+        .copy-feedback {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .copy-feedback.visible {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -178,6 +235,26 @@
             highlight: function(code, lang) {
                 const language = hljs.getLanguage(lang) ? lang : 'plaintext';
                 return hljs.highlight(code, { language }).value;
+            },
+            renderer: {
+                code(code, language) {
+                    const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
+                    const highlightedCode = hljs.highlight(code, { language: validLanguage }).value;
+                    
+                    return `
+                        <div class="code-block-container">
+                            <div class="code-header">
+                                <button class="copy-button" onclick="copyCode(this)">
+                                    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16">
+                                        <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path>
+                                        <path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                            <pre><code class="${validLanguage}">${highlightedCode}</code></pre>
+                        </div>`;
+                }
             }
         });
 
@@ -187,6 +264,33 @@
             }
             return url.replace('github.com', 'raw.githubusercontent.com')
                      .replace('/blob/', '/');
+        }
+
+        async function copyCode(button) {
+            const codeBlock = button.closest('.code-block-container').querySelector('code');
+            const text = codeBlock.innerText;
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                
+                // Show success message
+                const container = button.closest('.code-block-container');
+                const feedback = document.createElement('div');
+                feedback.className = 'copy-feedback';
+                feedback.textContent = 'Copied!';
+                container.appendChild(feedback);
+                
+                // Trigger animation
+                setTimeout(() => feedback.classList.add('visible'), 0);
+                
+                // Remove message after delay
+                setTimeout(() => {
+                    feedback.classList.remove('visible');
+                    setTimeout(() => feedback.remove(), 200);
+                }, 1500);
+            } catch (err) {
+                console.error('Failed to copy text:', err);
+            }
         }
 
         async function loadMarkdown() {
