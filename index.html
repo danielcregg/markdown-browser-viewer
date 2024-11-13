@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub Markdown Viewer</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
     <style>
         :root {
             --primary-color: #0969da;
@@ -168,11 +170,15 @@
     </div>
 
     <script>
-        // Configure marked for GitHub-flavored markdown
+        // Configure marked for GitHub-flavored markdown with highlight.js
         marked.setOptions({
             gfm: true,
             breaks: true,
-            headerIds: true
+            headerIds: true,
+            highlight: function(code, lang) {
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            }
         });
 
         function convertToRawUrl(url) {
