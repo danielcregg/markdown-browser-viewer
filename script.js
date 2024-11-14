@@ -136,7 +136,7 @@ async function loadMarkdown() {
             document.title = h1Match[1] + ' - MKView';
         }
 
-        // Add content-mode class to body to hide input interface
+        // Hide interface elements
         document.body.classList.add('content-mode');
 
         // Re-render Mermaid diagrams
@@ -146,7 +146,7 @@ async function loadMarkdown() {
         errorDiv.style.display = 'block';
         errorDiv.textContent = `Error: ${error.message}`;
         contentDiv.innerHTML = '';
-        // Show input interface again on error
+        // Show interface again on error
         document.body.classList.remove('content-mode');
     } finally {
         loadingDiv.style.display = 'none';
@@ -168,27 +168,28 @@ window.addEventListener('load', () => {
     
     // If no hash, check if there's a path after the base URL
     if (!mdUrl) {
-        const basePath = '/markdown-browser-viewer/';
-        const fullPath = window.location.pathname;
-        
-        if (fullPath.startsWith(basePath) && fullPath.length > basePath.length) {
-            // Get everything after the base path
-            mdUrl = fullPath.substring(basePath.length);
-            // Ensure it starts with https://
+        const path = window.location.pathname;
+        if (path.length > 1) {
+            mdUrl = path.substring(1);  // Remove leading slash
             if (!mdUrl.startsWith('https://')) {
                 mdUrl = 'https://' + mdUrl;
             }
         }
     }
     
-    // If we have a URL, load it
+    // If we have a URL, load it and hide interface immediately
     if (mdUrl) {
+        document.body.classList.add('content-mode'); // Hide interface immediately
         document.getElementById('url-input').value = mdUrl;
         loadMarkdown();
         
         // Clean up the URL in the browser if we came from a hash
         if (window.location.hash) {
-            history.replaceState(null, '', '/' + mdUrl);
+            try {
+                history.replaceState(null, '', '/' + mdUrl);
+            } catch (e) {
+                console.warn('Could not update URL:', e);
+            }
         }
     }
 });
