@@ -106,7 +106,6 @@ async function loadMarkdown() {
     const errorDiv = document.getElementById('error');
     const loadingDiv = document.getElementById('loading');
     const urlInput = document.getElementById('url-input');
-    const inputSection = document.getElementById('input-section');
     
     errorDiv.style.display = 'none';
     contentDiv.innerHTML = '';
@@ -137,6 +136,9 @@ async function loadMarkdown() {
             document.title = h1Match[1] + ' - MKView';
         }
 
+        // Add content-mode class to body to hide input interface
+        document.body.classList.add('content-mode');
+
         // Re-render Mermaid diagrams
         mermaid.init();
 
@@ -144,6 +146,8 @@ async function loadMarkdown() {
         errorDiv.style.display = 'block';
         errorDiv.textContent = `Error: ${error.message}`;
         contentDiv.innerHTML = '';
+        // Show input interface again on error
+        document.body.classList.remove('content-mode');
     } finally {
         loadingDiv.style.display = 'none';
     }
