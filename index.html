@@ -407,30 +407,38 @@
             }
         }
 
-        // Load content from URL parameter or path
-        window.addEventListener('load', () => {
-            // First check for url parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            let mdUrl = urlParams.get('url');
+    // Load content from URL parameter or path
+    window.addEventListener('load', () => {
+        let mdUrl;
+        
+        // First check for url parameter (backward compatibility)
+        const urlParams = new URLSearchParams(window.location.search);
+        mdUrl = urlParams.get('url');
+        
+        // If no url parameter, check if there's a path after the base URL
+        if (!mdUrl) {
+            const basePath = '/markdown-browser-viewer/';
+            const fullPath = window.location.pathname;
             
-            // If no url parameter, check if there's a path after the base URL
-            if (!mdUrl) {
-                const path = window.location.pathname.split('/markdown-browser-viewer/')[1];
-                if (path) {
-                    // Decode the URL-encoded path
-                    mdUrl = decodeURIComponent(path);
-                    // If it doesn't start with http, assume it's a GitHub URL
-                    if (!mdUrl.startsWith('http')) {
-                        mdUrl = 'https://' + mdUrl;
-                    }
+            if (fullPath.startsWith(basePath) && fullPath.length > basePath.length) {
+                // Get everything after the base path
+                mdUrl = fullPath.substring(basePath.length);
+                
+                // Decode the URL-encoded path
+                mdUrl = decodeURIComponent(mdUrl);
+                
+                // If it doesn't start with http, assume it's a GitHub URL
+                if (!mdUrl.startsWith('http')) {
+                    mdUrl = 'https://' + mdUrl;
                 }
             }
-
-            if (mdUrl) {
-                document.getElementById('url-input').value = mdUrl;
-                loadMarkdown();
-            }
-        });
+        }
+    
+        if (mdUrl) {
+            document.getElementById('url-input').value = mdUrl;
+            loadMarkdown();
+        }
+    });
     </script>
 </body>
 </html>
