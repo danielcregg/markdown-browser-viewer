@@ -46,17 +46,17 @@ flowchart LR
 
 There are two ways to use this viewer:
 
-1. **Direct URL**: Visit the website above and enter your markdown URL in the textbox provided.
+1. **Direct URL**: Visit the website and enter your markdown URL in the textbox provided.
    ```
    https://danielcregg.github.io/markdown-browser-viewer/
    ```
 
-2. **URL Parameter**: Append your markdown URL to the website's URL like below:
+2. **Direct Append**: Simply prepend the viewer's URL to any GitHub markdown URL:
+   ```
+   https://danielcregg.github.io/markdown-browser-viewer/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md
+   ```
    
-   https:\/\/danielcregg.github.io/markdown-browser-viewer/**?url=https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md**
-   
-
-For example, to view "Week 7 Lab: AI Recipe Generator", simply append its URL to the viewer's URL.
+Just take any GitHub markdown URL and add `https://danielcregg.github.io/markdown-browser-viewer/` in front of it.
 
 ---
 
