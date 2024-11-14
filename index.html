@@ -415,7 +415,7 @@
             
             // If no url parameter, check if there's a path after the base URL
             if (!mdUrl) {
-                const path = window.location.pathname.split('/md-render/')[1];
+                const path = window.location.pathname.split('/markdown-browser-viewer/')[1];
                 if (path) {
                     // Decode the URL-encoded path
                     mdUrl = decodeURIComponent(path);
