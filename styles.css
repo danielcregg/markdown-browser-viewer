@@ -240,6 +240,7 @@ body.content-mode .instructions {
 
 body.content-mode .container {
     padding-top: 0 !important;
-    max-width: none !important;
-    padding: 0 !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
 }
