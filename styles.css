@@ -238,9 +238,25 @@ body.content-mode .instructions {
     display: none !important;
 }
 
+/* Content width control */
 body.content-mode .container {
     padding-top: 0 !important;
     max-width: 800px !important;
     margin: 0 auto !important;
     padding: 20px !important;
+    width: 800px !important;
+}
+
+/* Style the content div directly */
+body.content-mode #content {
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Add additional control for nested elements */
+body.content-mode #content > * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }
