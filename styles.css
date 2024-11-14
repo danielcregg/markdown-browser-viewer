@@ -230,3 +230,18 @@ button:hover {
     border: 1px solid var(--border-color);
     margin: 16px 0;
 }
+
+.hidden {
+    display: none !important;
+}
+
+/* Add these styles for when showing markdown content */
+.content-mode .header,
+.content-mode #input-section,
+.content-mode .instructions {
+    display: none;
+}
+
+.content-mode .container {
+    padding-top: 20px;
+}
