@@ -407,7 +407,7 @@
             }
         }
 
-   // Load content from URL parameter or hash
+    // Load content from URL
     window.addEventListener('load', () => {
         let mdUrl;
         
@@ -415,31 +415,50 @@
         const urlParams = new URLSearchParams(window.location.search);
         mdUrl = urlParams.get('url');
         
-        // If no url parameter, check for hash
+        // If no url parameter, check hash (from 404 redirect)
         if (!mdUrl && window.location.hash) {
-            // Remove the # symbol and decode the URL
             mdUrl = decodeURIComponent(window.location.hash.substring(1));
+        }
+        
+        // If no hash, check if there's a path after the base URL
+        if (!mdUrl) {
+            const basePath = '/markdown-browser-viewer/';
+            const fullPath = window.location.pathname;
             
-            // If it doesn't start with http, assume it's a GitHub URL
-            if (!mdUrl.startsWith('http')) {
-                mdUrl = 'https://' + mdUrl;
+            if (fullPath.startsWith(basePath) && fullPath.length > basePath.length) {
+                // Get everything after the base path
+                mdUrl = fullPath.substring(basePath.length);
+                // Ensure it starts with https://
+                if (!mdUrl.startsWith('https://')) {
+                    mdUrl = 'https://' + mdUrl;
+                }
             }
         }
-    
+        
+        // If we have a URL, load it
         if (mdUrl) {
+            // Load the markdown
             document.getElementById('url-input').value = mdUrl;
             loadMarkdown();
+            
+            // Clean up the URL in the browser if we came from a hash
+            if (window.location.hash) {
+                history.replaceState(null, '', '/markdown-browser-viewer/' + mdUrl);
+            }
         }
     });
     
-    // Listen for hash changes to support navigation
-    window.addEventListener('hashchange', () => {
-        if (window.location.hash) {
-            const mdUrl = decodeURIComponent(window.location.hash.substring(1));
-            document.getElementById('url-input').value = mdUrl;
-            loadMarkdown();
+    // Update existing convertToRawUrl function to handle full URLs better
+    function convertToRawUrl(url) {
+        // Ensure we have a proper URL
+        if (!url.startsWith('https://')) {
+            url = 'https://' + url;
         }
-    });
+        
+        // Convert GitHub URL to raw URL
+        return url.replace('github.com', 'raw.githubusercontent.com')
+                  .replace('/blob/', '/');
+    }
     </script>
 </body>
 </html>
