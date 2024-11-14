@@ -106,6 +106,7 @@ async function loadMarkdown() {
     const errorDiv = document.getElementById('error');
     const loadingDiv = document.getElementById('loading');
     const urlInput = document.getElementById('url-input');
+    const baseUrl = 'https://mkview.tech/';
     
     errorDiv.style.display = 'none';
     contentDiv.innerHTML = '';
@@ -124,7 +125,8 @@ async function loadMarkdown() {
                 url = 'https://' + url;
             }
             // Update the browser URL without reloading the page
-            history.pushState(null, '', '/' + url);
+            const fullUrl = url.startsWith(baseUrl) ? url : baseUrl + url;
+            window.history.pushState({}, '', fullUrl);
         } catch (e) {
             console.warn('Could not update URL:', e);
         }
@@ -162,7 +164,7 @@ async function loadMarkdown() {
         document.body.classList.remove('content-mode');
         // Reset URL if there's an error
         try {
-            history.pushState(null, '', '/');
+            window.history.pushState({}, '', baseUrl);
         } catch (e) {
             console.warn('Could not reset URL:', e);
         }
