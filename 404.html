@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Markdown Viewer</title>
+    <script>
+        // Get the full path after /markdown-browser-viewer/
+        const path = window.location.pathname.split('/markdown-browser-viewer/')[1];
+        if (path) {
+            // Redirect to the main page with the full path as a parameter
+            window.location.href = '/markdown-browser-viewer/index.html#' + 
+                encodeURIComponent(path.startsWith('https://') ? path : 'https://' + path);
+        } else {
+            // If no path, just go to the main page
+            window.location.href = '/markdown-browser-viewer/';
+        }
+    </script>
+</head>
+<body>
+    Redirecting...
+</body>
+</html>
