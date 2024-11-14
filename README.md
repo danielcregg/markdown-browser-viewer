@@ -53,7 +53,7 @@ There are two ways to use this viewer:
 
 2. **Direct Append**: Simply prepend the viewer's URL to any GitHub markdown URL:
    ```
-   (https://mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md
+   https://mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md
    ```
    
 Just take any GitHub markdown URL and add `https://mkview.tech/` in front of it.
