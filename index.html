@@ -420,30 +420,25 @@
             mdUrl = decodeURIComponent(window.location.hash.substring(1));
         }
         
-        // If no hash, check if there's a path after the base URL
-        if (!mdUrl) {
-            const basePath = '/markdown-browser-viewer/';
-            const fullPath = window.location.pathname;
-            
-            if (fullPath.startsWith(basePath) && fullPath.length > basePath.length) {
-                // Get everything after the base path
-                mdUrl = fullPath.substring(basePath.length);
-                // Ensure it starts with https://
-                if (!mdUrl.startsWith('https://')) {
-                    mdUrl = 'https://' + mdUrl;
-                }
-            }
-        }
-        
         // If we have a URL, load it
         if (mdUrl) {
+            // Clean up the URL if needed
+            if (!mdUrl.startsWith('http')) {
+                mdUrl = 'https://' + mdUrl;
+            }
+            
             // Load the markdown
             document.getElementById('url-input').value = mdUrl;
             loadMarkdown();
             
-            // Clean up the URL in the browser if we came from a hash
+            // Clean up the URL in the browser
             if (window.location.hash) {
-                history.replaceState(null, '', '/markdown-browser-viewer/' + mdUrl);
+                try {
+                    history.replaceState(null, '', '/' + mdUrl);
+                } catch (e) {
+                    // If we can't update the URL, that's okay
+                    console.warn('Could not update URL:', e);
+                }
             }
         }
     });
