@@ -407,7 +407,7 @@
             }
         }
 
-    // Load content from URL parameter or path
+   // Load content from URL parameter or hash
     window.addEventListener('load', () => {
         let mdUrl;
         
@@ -415,26 +415,27 @@
         const urlParams = new URLSearchParams(window.location.search);
         mdUrl = urlParams.get('url');
         
-        // If no url parameter, check if there's a path after the base URL
-        if (!mdUrl) {
-            const basePath = '/markdown-browser-viewer/';
-            const fullPath = window.location.pathname;
+        // If no url parameter, check for hash
+        if (!mdUrl && window.location.hash) {
+            // Remove the # symbol and decode the URL
+            mdUrl = decodeURIComponent(window.location.hash.substring(1));
             
-            if (fullPath.startsWith(basePath) && fullPath.length > basePath.length) {
-                // Get everything after the base path
-                mdUrl = fullPath.substring(basePath.length);
-                
-                // Decode the URL-encoded path
-                mdUrl = decodeURIComponent(mdUrl);
-                
-                // If it doesn't start with http, assume it's a GitHub URL
-                if (!mdUrl.startsWith('http')) {
-                    mdUrl = 'https://' + mdUrl;
-                }
+            // If it doesn't start with http, assume it's a GitHub URL
+            if (!mdUrl.startsWith('http')) {
+                mdUrl = 'https://' + mdUrl;
             }
         }
     
         if (mdUrl) {
+            document.getElementById('url-input').value = mdUrl;
+            loadMarkdown();
+        }
+    });
+    
+    // Listen for hash changes to support navigation
+    window.addEventListener('hashchange', () => {
+        if (window.location.hash) {
+            const mdUrl = decodeURIComponent(window.location.hash.substring(1));
             document.getElementById('url-input').value = mdUrl;
             loadMarkdown();
         }
