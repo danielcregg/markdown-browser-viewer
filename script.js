@@ -117,6 +117,18 @@ async function loadMarkdown() {
             throw new Error('Please enter a URL');
         }
 
+        // Update the browser URL to reflect the input URL
+        try {
+            // Make sure URL starts with https:// for consistency
+            if (!url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            // Update the browser URL without reloading the page
+            history.pushState(null, '', '/' + url);
+        } catch (e) {
+            console.warn('Could not update URL:', e);
+        }
+
         url = convertToRawUrl(url);
 
         const response = await fetch(url);
@@ -148,6 +160,12 @@ async function loadMarkdown() {
         contentDiv.innerHTML = '';
         // Show interface again on error
         document.body.classList.remove('content-mode');
+        // Reset URL if there's an error
+        try {
+            history.pushState(null, '', '/');
+        } catch (e) {
+            console.warn('Could not reset URL:', e);
+        }
     } finally {
         loadingDiv.style.display = 'none';
     }
@@ -182,15 +200,6 @@ window.addEventListener('load', () => {
         document.body.classList.add('content-mode'); // Hide interface immediately
         document.getElementById('url-input').value = mdUrl;
         loadMarkdown();
-        
-        // Clean up the URL in the browser if we came from a hash
-        if (window.location.hash) {
-            try {
-                history.replaceState(null, '', '/' + mdUrl);
-            } catch (e) {
-                console.warn('Could not update URL:', e);
-            }
-        }
     }
 });
 
