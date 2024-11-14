@@ -86,7 +86,6 @@
             display: none;
         }
 
-        /* Markdown Styles */
         #content h1, #content h2, #content h3, #content h4, #content h5, #content h6 {
             margin-top: 24px;
             margin-bottom: 16px;
@@ -103,7 +102,6 @@
         #content h2 { font-size: 1.5em; }
         #content h3 { font-size: 1.25em; }
 
-        /* Code block container */
         .code-block-container {
             position: relative;
             background: var(--code-background);
@@ -121,7 +119,7 @@
 
         .copy-button {
             background: transparent;
-            border: none;
+            border: 1px solid var(--border-color);
             color: #656d76;
             padding: 4px 8px;
             font-size: 12px;
@@ -130,23 +128,11 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            transition: all 0.2s ease;
         }
 
         .copy-button:hover {
             background: var(--copy-button-hover);
             color: var(--primary-color);
-        }
-
-        .copy-button svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-            opacity: 0.8;
-        }
-        
-        .copy-button:hover svg {
-            opacity: 1;
         }
 
         #content pre {
@@ -203,29 +189,6 @@
             color: var(--text-color);
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* Copy success message */
-        .copy-feedback {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: var(--background-color);
-            color: var(--text-color);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .copy-feedback.visible {
-            opacity: 1;
-        }
-
-        /* Mermaid diagram styles */
         .mermaid {
             background: var(--background-color);
             padding: 16px;
@@ -249,39 +212,47 @@
     </div>
 
     <script>
-        // Initialize mermaid
+        // Initialize mermaid with proper configuration
         mermaid.initialize({
-            startOnLoad: false,
+            startOnLoad: true,
             theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
             securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
         });
 
         // Listen for dark mode changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
             mermaid.initialize({
-                startOnLoad: false,
-                theme: event.matches ? 'dark' : 'default',
-                securityLevel: 'loose',
+                theme: event.matches ? 'dark' : 'default'
             });
         });
 
         // Create custom renderer
         const renderer = new marked.Renderer();
 
-        // Override code block rendering
+        // Override code block rendering with improved mermaid handling
         renderer.code = function(code, language) {
             if (language && language.toLowerCase() === 'mermaid') {
-                return `<div class="mermaid">${code}</div>`;
+                try {
+                    // Add a unique ID to the mermaid div
+                    const mermaidId = 'mermaid-' + Math.random().toString(36).substr(2, 9);
+                    return `<div class="mermaid" id="${mermaidId}">${code}</div>`;
+                } catch (error) {
+                    console.error('Mermaid rendering error:', error);
+                    return `<pre><code class="language-mermaid">${code}</code></pre>`;
+                }
             }
+
             const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
             const highlightedCode = hljs.highlight(code, { language: validLanguage }).value;
+            
             return `
                 <div class="code-block-container">
                     <div class="code-header">
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <!-- Copy icon SVG -->
-                            Copy
-                        </button>
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
                     </div>
                     <pre><code class="hljs ${validLanguage}">${highlightedCode}</code></pre>
                 </div>`;
@@ -293,18 +264,17 @@
             gfm: true,
             breaks: true,
             headerIds: true,
+            mangle: false,
             highlight: function(code, lang) {
                 if (lang && lang.toLowerCase() === 'mermaid') {
                     return code;
                 }
                 const language = hljs.getLanguage(lang) ? lang : 'plaintext';
                 return hljs.highlight(code, { language }).value;
-            },
+            }
         });
 
         function convertToRawUrl(url) {
-            console.log('Converting URL:', url);
-
             // Remove any leading or trailing whitespace
             url = url.trim();
 
@@ -325,14 +295,10 @@
             if (match) {
                 const repo = match[1];
                 const path = match[2];
-                const rawUrl = `https://raw.githubusercontent.com/${repo}/${path}`;
-                console.log('Converted to:', rawUrl);
-                return rawUrl;
-            } else {
-                // If the URL doesn't match GitHub pattern, return as is
-                console.log('URL is not a GitHub blob URL. Using original URL.');
-                return url;
+                return `https://raw.githubusercontent.com/${repo}/${path}`;
             }
+            
+            return url;
         }
 
         async function copyCode(button) {
@@ -341,14 +307,14 @@
 
             try {
                 await navigator.clipboard.writeText(text);
-
-                // Show feedback
+                const originalText = button.textContent;
                 button.textContent = 'Copied!';
                 setTimeout(() => {
-                    button.textContent = 'Copy';
+                    button.textContent = originalText;
                 }, 1500);
             } catch (err) {
                 console.error('Failed to copy text:', err);
+                button.textContent = 'Error!';
             }
         }
 
@@ -370,12 +336,10 @@
                 }
 
                 url = convertToRawUrl(url);
-
-                console.log('Fetching URL:', url);
-
                 const response = await fetch(url);
+                
                 if (!response.ok) {
-                    throw new Error('Failed to fetch markdown content');
+                    throw new Error(`Failed to fetch markdown content (${response.status})`);
                 }
 
                 const markdown = await response.text();
@@ -388,8 +352,15 @@
                 // Display the content
                 contentDiv.innerHTML = html;
 
-                // Initialize mermaid diagrams
-                mermaid.init(undefined, contentDiv);
+                // Re-initialize mermaid diagrams
+                document.querySelectorAll('.mermaid').forEach(async (element) => {
+                    try {
+                        await mermaid.init(undefined, element);
+                    } catch (error) {
+                        console.warn('Mermaid initialization error:', error);
+                        element.innerHTML = `<pre><code class="language-mermaid">${element.textContent}</code></pre>`;
+                    }
+                });
 
                 // Update page title if there's an H1
                 const h1Match = markdown.match(/^#\s+(.+)$/m);
@@ -413,27 +384,16 @@
 
             if (!mdUrl) {
                 let path = decodeURIComponent(window.location.pathname);
-
-                // Remove the base path if necessary
-                const basePath = '/markdown-browser-viewer';
-                if (path.startsWith(basePath)) {
-                    path = path.substring(basePath.length);
-                }
-
-                // Remove leading slash if present
                 if (path.startsWith('/')) {
                     path = path.substring(1);
                 }
-
                 if (path) {
                     mdUrl = path;
                 }
             }
 
             if (mdUrl) {
-                // Decode any URL-encoded characters
                 mdUrl = decodeURIComponent(mdUrl);
-
                 document.getElementById('url-input').value = mdUrl;
                 loadMarkdown();
             }
