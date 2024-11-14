@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Markdown Viewer</title>
+    <title>Redirecting...</title>
     <script>
-        // Get the full path after /markdown-browser-viewer/
-        const path = window.location.pathname.split('/markdown-browser-viewer/')[1];
+        // Get everything after the domain
+        const path = window.location.pathname.substring(1); // Remove leading slash
+        
         if (path) {
-            // Redirect to the main page with the full path as a parameter
-            window.location.href = '/markdown-browser-viewer/index.html#' + 
-                encodeURIComponent(path.startsWith('https://') ? path : 'https://' + path);
+            // Handle both with and without https:// prefix
+            const mdUrl = path.startsWith('http') ? path : `https://${path}`;
+            
+            // Redirect to the main page with the path as a hash
+            window.location.href = '/#' + encodeURIComponent(mdUrl);
         } else {
             // If no path, just go to the main page
-            window.location.href = '/markdown-browser-viewer/';
+            window.location.href = '/';
         }
     </script>
 </head>
 <body>
-    Redirecting...
+    <p>Redirecting...</p>
 </body>
 </html>
