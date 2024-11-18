@@ -228,7 +228,10 @@ button:hover {
     padding: 16px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
-    margin: 16px auto; /* Center the Mermaid diagrams */
+    margin: 16px auto;
+    text-align: center; /* Center the diagram content */
+    display: flex;      /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
 }
 
 /* Hide interface elements when showing markdown */
