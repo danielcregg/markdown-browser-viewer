@@ -17,6 +17,16 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
 // Create custom renderer
 const renderer = new marked.Renderer();
 
+// Add heading renderer to generate proper IDs
+renderer.heading = function (text, level, raw) {
+    // Create GitHub-style ID (lowercase, only alphanumeric and dash)
+    const id = raw.toLowerCase()
+        .replace(/[^\w\s-]/g, '')  // Remove special characters
+        .replace(/\s+/g, '-');     // Replace spaces with dashes
+    
+    return `<h${level} id="${id}">${text}</h${level}>`;
+};
+
 // Override code block rendering
 renderer.code = function(code, language) {
     if (language === 'mermaid') {
@@ -39,11 +49,6 @@ renderer.code = function(code, language) {
             </div>
             <pre><code class="${validLanguage}">${highlightedCode}</code></pre>
         </div>`;
-};
-
-renderer.heading = function (text, level, raw, slugger) {
-    const escapedText = slugger.slug(raw);
-    return `<h${level} id="${escapedText}">${text}</h${level}>`;
 };
 
 marked.setOptions({
