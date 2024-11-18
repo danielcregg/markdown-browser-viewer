@@ -41,12 +41,18 @@ renderer.code = function(code, language) {
         </div>`;
 };
 
-// Configure marked options
+renderer.heading = function (text, level, raw, slugger) {
+    const escapedText = slugger.slug(raw);
+    return `<h${level} id="${escapedText}">${text}</h${level}>`;
+};
+
 marked.setOptions({
     renderer: renderer,
     gfm: true,
     breaks: true,
     headerIds: true,
+    headerPrefix: '',
+    mangle: false,
     highlight: function(code, lang) {
         if (lang === 'mermaid') {
             return code;
@@ -54,12 +60,6 @@ marked.setOptions({
         const language = hljs.getLanguage(lang) ? lang : 'plaintext';
         return hljs.highlight(code, { language }).value;
     }
-});
-
-marked.setOptions({
-    headerIds: true,
-    headerPrefix: '',
-    mangle: false
 });
 
 async function copyCode(button) {
