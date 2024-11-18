@@ -56,6 +56,12 @@ marked.setOptions({
     }
 });
 
+marked.setOptions({
+    headerIds: true,
+    headerPrefix: '',
+    mangle: false
+});
+
 async function copyCode(button) {
     const codeBlock = button.closest('.code-block-container').querySelector('code');
     const text = codeBlock.innerText;
