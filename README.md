@@ -2,6 +2,21 @@
 
 > **🌐 Live at: https://mkview.tech**
 
+## Quick Usage
+
+There are two ways to use this markdown in-browser viewer:
+
+1. Navigate to any markdown file (e.g. README file) in any public GitHub repository and prepend `mkview.tech/` to the URL.  
+    
+    EXAMPLE:  
+    [mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md](https://mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md)
+
+2. **Direct URL**: Visit the website and enter your markdown URL in the textbox provided.
+   
+   [https://mkview.tech](https://mkview.tech)
+
+---
+
 # Overview
 
 The GitHub Markdown Viewer is a specialized tool that renders GitHub markdown files in a clean, standalone interface. It faithfully reproduces GitHub's native markdown rendering capabilities while eliminating surrounding repository elements, providing a distraction-free reading experience.
@@ -42,24 +57,6 @@ flowchart LR
 - 📋 GitHub-style copy button for code blocks
 - 🌓 Automatic dark mode support
 - 🔄 Direct GitHub URL conversion
-
-## Quick Usage
-
-There are two ways to use this viewer:
-
-1. **Direct URL**: Visit the website and enter your markdown URL in the textbox provided.
-   
-   [https://mkview.tech](https://mkview.tech)
-
-2. **Direct Append**: Simply prepend the viewer's URL to any GitHub markdown URL:
-   ```
-   https://mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md
-   ```
-   
-Just take any GitHub markdown URL and add `https://mkview.tech/` in front of it.
-
----
-
 
 
 ## How It Works
