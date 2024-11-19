@@ -146,6 +146,9 @@ async function loadMarkdown() {
 
         const response = await fetch(url);
         if (!response.ok) {
+            if (response.status === 404 && url.includes('raw.githubusercontent.com')) {
+                throw new Error('Cannot view markdown from private GitHub repository');
+            }
             throw new Error('Failed to fetch markdown content');
         }
 
