@@ -1,4 +1,4 @@
-# GitHub Markdown Browser Viewer  
+# GitHub Markdown Browser Viewer
 
 > **🌐 Live at: https://mkview.tech**
 
@@ -6,13 +6,13 @@
 
 There are two ways to use this markdown in-browser viewer:
 
-1. Navigate to any markdown file (e.g. README file) in any public GitHub repository and prepend `mkview.tech/` to the URL.  
-    
-    EXAMPLE:  
+1. Navigate to any markdown file (e.g. README file) in any public GitHub repository and prepend `mkview.tech/` to the URL.
+
+    EXAMPLE:
     [mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md](https://mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md)
 
 2. **Direct URL**: Visit the website and enter your markdown URL in the textbox provided.
-   
+
    [https://mkview.tech](https://mkview.tech)
 
 ---
@@ -57,7 +57,6 @@ flowchart LR
 - 📋 GitHub-style copy button for code blocks
 - 🌓 Automatic dark mode support
 - 🔄 Direct GitHub URL conversion
-
 
 ## How It Works
 
@@ -155,7 +154,7 @@ stateDiagram-v2
     [*] --> CheckPreference
     CheckPreference --> LightMode: System Light
     CheckPreference --> DarkMode: System Dark
-    
+
     LightMode --> UpdateUI: Apply Light Theme
     DarkMode --> UpdateUI: Apply Dark Theme
 ```
