@@ -54,17 +54,7 @@ renderer.code = function(code, language) {
 marked.setOptions({
     renderer: renderer,
     gfm: true,
-    breaks: true,
-    headerIds: true,
-    headerPrefix: '',
-    mangle: false,
-    highlight: function(code, lang) {
-        if (lang === 'mermaid') {
-            return code;
-        }
-        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-        return hljs.highlight(code, { language }).value;
-    }
+    breaks: true
 });
 
 async function copyCode(button) {
@@ -168,7 +158,11 @@ async function loadMarkdown() {
         document.body.classList.add('content-mode');
 
         // Re-render Mermaid diagrams
-        mermaid.init();
+        try {
+            await mermaid.run();
+        } catch (e) {
+            console.warn('Mermaid rendering failed:', e);
+        }
 
     } catch (error) {
         errorDiv.style.display = 'block';
