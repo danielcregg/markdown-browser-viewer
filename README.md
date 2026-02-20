@@ -1,163 +1,73 @@
-# GitHub Markdown Browser Viewer
+# Markdown Browser Viewer (MKView)
 
-> **🌐 Live at: https://mkview.tech**
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)
 
-## Quick Usage
+A clean, standalone viewer that renders GitHub markdown files with faithful GitHub-style formatting, syntax highlighting, and interactive Mermaid diagrams. Live at [mkview.tech](https://mkview.tech).
 
-There are two ways to use this markdown in-browser viewer:
+## Overview
 
-1. Navigate to any markdown file (e.g. README file) in any public GitHub repository and prepend `mkview.tech/` to the URL.
-
-    EXAMPLE:
-    [mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md](https://mkview.tech/https://github.com/danielcregg/example-coding-lab/blob/main/my-coding-lab.md)
-
-2. **Direct URL**: Visit the website and enter your markdown URL in the textbox provided.
-
-   [https://mkview.tech](https://mkview.tech)
-
----
-
-# Overview
-
-The GitHub Markdown Viewer is a specialized tool that renders GitHub markdown files in a clean, standalone interface. It faithfully reproduces GitHub's native markdown rendering capabilities while eliminating surrounding repository elements, providing a distraction-free reading experience.
-
-## Purpose
-
-This viewer addresses several key needs:
-- Renders markdown files with GitHub-faithful styling
-- Provides a standalone, clutter-free display
-- Supports complex elements including:
-  - Syntax-highlighted code blocks
-  - Interactive Mermaid diagrams
-  - Tables and formatting
-
-## Key Benefits
-
-- **Educational Use**: Ideal for displaying laboratory instructions, project briefs, and technical documentation
-- **Professional Presentation**: Offers clean, consistent formatting without platform-specific distractions
-- **Modern Alternative**: Replaces traditional word processors where code formatting is challenging
-- **AI Integration**: Seamlessly handles AI-generated markdown content, making it perfect for documentation workflows that leverage AI tools
-
-```mermaid
-flowchart LR
-    A[Markdown Creation via AI] --> B[GitHub Storage]
-    B --> C[Clean Display]
-    C --> D{Use Cases}
-    D --> E[Lab Instructions]
-    D --> F[Project Briefs]
-    D --> G[Documentation]
-    D --> H[Technical Coding Guides]
-```
+MKView is a specialized web tool that fetches and renders GitHub-hosted markdown files in a distraction-free interface. It reproduces GitHub's native markdown rendering, including syntax-highlighted code blocks, Mermaid diagrams, tables, and dark mode support, while stripping away all surrounding repository UI. It also includes a Chrome extension for one-click viewing of any GitHub markdown file.
 
 ## Features
 
-- 🎨 GitHub-style markdown rendering
-- 📊 Native Mermaid diagram support
-- 💻 Syntax highlighting for code blocks
-- 📋 GitHub-style copy button for code blocks
-- 🌓 Automatic dark mode support
-- 🔄 Direct GitHub URL conversion
+- GitHub-faithful markdown rendering with full GFM support
+- Native Mermaid diagram rendering (flowcharts, sequence diagrams, mind maps, and more)
+- Syntax highlighting for code blocks with a copy-to-clipboard button
+- Automatic dark mode based on system preference
+- Direct GitHub URL conversion (prepend `mkview.tech/` to any GitHub markdown URL)
+- Chrome extension for one-click viewing from any GitHub page
+- Custom 404 page with automatic URL redirection
+- GitHub Pages deployment with custom domain (`mkview.tech`)
 
-## How It Works
+## Prerequisites
 
-```mermaid
-flowchart LR
-    A[Input URL] --> B{URL Type}
-    B -->|GitHub URL| C[Convert to Raw]
-    B -->|Raw URL| D[Direct Use]
-    C --> E[Fetch Content]
-    D --> E
-    E --> F[Render Markdown]
-    F --> G[Display Content]
-    G --> H{Content Type}
-    H -->|Code| I[Syntax Highlight]
-    H -->|Mermaid| J[Render Diagram]
-```
+- A **modern web browser** (Chrome, Firefox, Safari, or Edge)
+- **JavaScript** enabled
+- An **internet connection** for fetching GitHub-hosted markdown files
 
-## Architecture
+## Getting Started
 
-```mermaid
-classDiagram
-    class MarkdownViewer {
-        +render()
-        +convertUrl()
-        +highlightSyntax()
-    }
-    class MermaidRenderer {
-        +initialize()
-        +render()
-    }
-    class SyntaxHighlighter {
-        +highlight()
-        +getLanguage()
-    }
-    MarkdownViewer --> MermaidRenderer
-    MarkdownViewer --> SyntaxHighlighter
-```
+### Installation
 
-## Processing Flow
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/danielcregg/markdown-browser-viewer.git
+   cd markdown-browser-viewer
+   ```
 
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant V as Viewer
-    participant G as GitHub
-    participant R as Renderer
+2. Open `index.html` in your browser, or deploy to any static hosting provider.
 
-    U->>V: Input GitHub URL
-    V->>V: Convert to Raw URL
-    V->>G: Fetch Content
-    G->>V: Return Markdown
-    V->>R: Process Content
-    R->>R: Highlight Syntax
-    R->>R: Render Mermaid
-    R->>V: Return HTML
-    V->>U: Display Result
-```
+3. **Chrome Extension** (optional):
+   - Open `chrome://extensions/` in Chrome
+   - Enable "Developer mode"
+   - Click "Load unpacked" and select the `extension/` directory
 
-## Components & Dependencies
+### Usage
 
-```mermaid
-mindmap
-    root((Markdown Viewer))
-        (Parsing Engine)
-            (Markdown Parser)
-            (Syntax Highlighter)
-        (Rendering)
-            (Mermaid Diagrams)
-            (Code Blocks)
-            (Tables)
-        (UI Components)
-            (Dark Mode)
-            (Copy Button)
-            (URL Converter)
-```
+There are two ways to view a markdown file:
 
-## System Requirements
+1. **URL Prepend:** Navigate to any public GitHub markdown file and prepend `mkview.tech/` to the URL:
+   ```
+   mkview.tech/https://github.com/username/repo/blob/main/README.md
+   ```
 
-```mermaid
-graph TD
-    A[System Requirements] --> B[Modern Browser]
-    B --> C[Chrome Latest]
-    B --> D[Firefox Latest]
-    B --> E[Safari Latest]
-    B --> F[Edge Latest]
-    A --> G[JavaScript Enabled]
-    A --> H[Internet Connection]
-    H --> I[For GitHub URLs]
-```
+2. **Direct Input:** Visit [mkview.tech](https://mkview.tech) and paste the GitHub markdown URL into the input field.
 
-## Dark Mode Behavior
+3. **Chrome Extension:** Click the MKView icon while on any GitHub page to open the current file in MKView.
 
-```mermaid
-stateDiagram-v2
-    [*] --> CheckPreference
-    CheckPreference --> LightMode: System Light
-    CheckPreference --> DarkMode: System Dark
+## Tech Stack
 
-    LightMode --> UpdateUI: Apply Light Theme
-    DarkMode --> UpdateUI: Apply Dark Theme
-```
+- **JavaScript** - Core application logic, markdown parsing, and rendering
+- **HTML5** - Page structure and semantic markup
+- **CSS3** - GitHub-style theming with dark mode support via CSS custom properties
+- **Marked.js** - Markdown parsing library
+- **Highlight.js** - Syntax highlighting for code blocks
+- **Mermaid.js** - Interactive diagram rendering
+- **GitHub Pages** - Static site hosting
 
-<a href="https://www.buymeacoffee.com/danielcregg" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+## License
 
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
